@@ -238,7 +238,7 @@ check_themes() {
     # Make sure the first listed theme is active so that others can be removed
     h2 "STATUS '$theme_name': $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') "
     #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
-    if [[ $i == $theme_count && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
+    if [[ $i == $theme_count ]]; then
       h3 "Activating '$theme_name'"
       WP theme activate --quiet "$theme_name"
       STATUS $?
