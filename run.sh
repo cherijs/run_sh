@@ -235,8 +235,14 @@ check_themes() {
       STATUS $?
     fi
 
+
+    themes[$theme_name]=$theme_url
+    ((i++))
+
+
+
     # Make sure the first listed theme is active so that others can be removed
-    h2 "STATUS '$theme_name': $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') "
+    h2 "STATUS '$theme_name' / $i - $theme_count :"
     #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
     if [[ $i == $theme_count ]]; then
       h3 "Activating '$theme_name'"
@@ -244,8 +250,7 @@ check_themes() {
       STATUS $?
     fi
 
-    themes[$theme_name]=$theme_url
-    ((i++))
+    
   done <<< "$THEMES"
 
   h2 "Checking for orphaned themes !!! "
