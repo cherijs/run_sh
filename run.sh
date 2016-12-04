@@ -210,9 +210,6 @@ check_themes() {
     fi
 
     # Locally volumed themes
-    h3 "($i/$theme_count) '${theme_name##*]}' TEST"
-
-
     if [[ $theme_name =~ ^\[local\] ]]; then
       themes["${theme_name##*]}"]="${theme_name##*]}"
       h3 "($i/$theme_count) '${theme_name##*]}' listed as a local volume. SKIPPING..."
@@ -239,7 +236,9 @@ check_themes() {
     fi
 
     # Make sure the first listed theme is active so that others can be removed
-    if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
+    h2 "STATUS '$theme_name': $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') "
+    #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
+    if [[ $i == $theme_count && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
       h3 "Activating '$theme_name'"
       WP theme activate --quiet "$theme_name"
       STATUS $?
