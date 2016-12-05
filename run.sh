@@ -41,7 +41,7 @@ core config:
     define('WP_DEBUG', ${WP_DEBUG,,});
     define('WP_DEBUG_LOG', ${WP_DEBUG_LOG,,});
     define('WP_DEBUG_DISPLAY', ${WP_DEBUG_DISPLAY,,});
-    define('SERVER_URL', $([ "$AFTER_URL" ] && echo "$AFTER_URL" || echo localhost:8080));
+    define('SERVER_URL', 'http://localhost:8080');
 
 core install:
   url: $([ "$AFTER_URL" ] && echo "$AFTER_URL" || echo localhost:8080)
