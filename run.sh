@@ -240,11 +240,6 @@ check_themes() {
     fi
 
 
-    themes[$theme_name]=$theme_url
-    ((i++))
-
-
-
     # Make sure the first listed theme is active so that others can be removed
     h3warn "STATUS '$theme_name' / $i - $theme_count / need to activate: $ACTIVE_THEME"
     #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
@@ -254,6 +249,15 @@ check_themes() {
       WP theme activate --quiet "$theme_name"
       STATUS $?
     fi
+
+
+
+
+
+    themes[$theme_name]=$theme_url
+    ((i++))
+
+
 
 
   done <<< "$THEMES"
