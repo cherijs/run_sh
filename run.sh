@@ -244,13 +244,14 @@ check_themes() {
     # Make sure the first listed theme is active so that others can be removed
     h2 "STATUS '$theme_name' / $i - $theme_count :"
     #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
-    if [[ $i == $theme_count ]]; then
+    # aktivizējam pedējo tēmu! bet bus japartaisa uz --active parametra
+    if [[ $i == $theme_count && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
       h3 "Activating '$theme_name'"
       WP theme activate --quiet "$theme_name"
       STATUS $?
     fi
 
-    
+
   done <<< "$THEMES"
 
   h2 "Checking for orphaned themes !!! "
@@ -326,6 +327,7 @@ check_plugins() {
 
     if WP plugin is-installed "$plugin_name"; then
       h3 "($i/$plugin_count) '$plugin_name' found. SKIPPING..."
+      # vajag aktivizēt, vismaz parbaidīt vai aktīvs
       STATUS SKIP
     else
       h3 "($i/$plugin_count) '$plugin_name' not found. Installing..."
