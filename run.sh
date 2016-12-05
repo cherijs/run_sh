@@ -120,10 +120,6 @@ main() {
   find /app -type d -exec chmod 755 {} \;
   find /app -type f -exec chmod 644 {} \;
   mkdir -p /app/wp-content/uploads
-  mkdir -p /app/config
-  chmod -R 775 /app/config
-  ln -s /app/wp-config.php /app/config/wp-config.php
-  ln -s /app/.htaccess /app/config/.htaccess
   chmod -R 775 /app/wp-content/uploads && \
     chown -R :docker /app/wp-content/uploads
   STATUS $?
