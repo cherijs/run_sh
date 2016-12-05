@@ -11,6 +11,7 @@ DB_HOST=${DB_HOST:-'db'}
 DB_NAME=${DB_NAME:-'wordpress'}
 DB_PASS=${DB_PASS:-'root'}
 DB_PREFIX=${DB_PREFIX:-'wp_'}
+ACTIVE_THEME=${ACTIVE_THEME:-'twentysixteen'}
 ADMIN_EMAIL=${ADMIN_EMAIL:-"admin@${DB_NAME}.com"}
 PERMALINKS=${PERMALINKS:-'/%year%/%monthnum%/%postname%/'}
 WP_DEBUG_DISPLAY=${WP_DEBUG_DISPLAY:-'true'}
@@ -242,10 +243,10 @@ check_themes() {
 
 
     # Make sure the first listed theme is active so that others can be removed
-    h2 "STATUS '$theme_name' / $i - $theme_count :"
+    h3warn "STATUS '$theme_name' / $i - $theme_count / need to activate: $ACTIVE_THEME"
     #if [[ $i == 1 && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
     # aktivizējam pedējo tēmu! bet bus japartaisa uz --active parametra
-    if [[ $i == $theme_count && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
+    if [[ $theme_name == $ACTIVE_THEME && $(WP theme status "$theme_name" | grep -Po 'Status.+' | awk '{print $2}') != 'Active' ]]; then
       h3 "Activating '$theme_name'"
       WP theme activate --quiet "$theme_name"
       STATUS $?
