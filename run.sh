@@ -13,6 +13,8 @@ DB_PASS=${DB_PASS:-'root'}
 DB_PREFIX=${DB_PREFIX:-'wp_'}
 ACTIVE_THEME=${ACTIVE_THEME:-'twentysixteen'}
 ADMIN_EMAIL=${ADMIN_EMAIL:-"admin@${DB_NAME}.com"}
+ADMIN_USER=${ADMIN_USER:-"wrong"}
+ADMIN_PASS=${ADMIN_PASS:DB_PASS}
 PERMALINKS=${PERMALINKS:-'/%year%/%monthnum%/%postname%/'}
 WP_DEBUG_DISPLAY=${WP_DEBUG_DISPLAY:-'true'}
 WP_DEBUG_LOG=${WB_DEBUG_LOG:-'false'}
@@ -43,14 +45,14 @@ core config:
 core install:
   url: $([ "$AFTER_URL" ] && echo "$AFTER_URL" || echo localhost:8080)
   title: $DB_NAME
-  admin_user: root
-  admin_password: $DB_PASS
+  admin_user: $ADMIN_USER
+  admin_password: $ADMIN_PASS
   admin_email: $ADMIN_EMAIL
   skip-email: true
 EOF
 
 main() {
-  h1 "Begin WordPress Installation :)"
+  h1 "Begin WordPress Installation"
 
   # Download WordPress
   # ------------------
@@ -255,7 +257,7 @@ check_themes() {
 
   done <<< "$THEMES"
 
-  h2 "Checking for orphaned themes !!! "
+  h2 "Checking for orphaned themes "
   while read -r theme_name; do
     if [[ ! ${themes[$theme_name]} ]]; then
       h3 "'$theme_name' no longer needed. Pruning"
